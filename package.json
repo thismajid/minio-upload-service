@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.0",
-    "fastify": "^3.27.3"
+    "fastify": "^3.27.3",
+    "minio": "^7.0.26"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",

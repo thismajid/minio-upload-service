@@ -1,4 +1,4 @@
-// import Minio from './minio';
+import MinioHelper from './utils/minio';
 
 class App {
   constructor(app) {
@@ -26,14 +26,14 @@ class App {
         process.exit(1);
       }
       console.log(`🚀 Server ready at http://localhost:${this.port}`);
-      //   this.minio();
+      this.minio();
     });
   }
 
-  //   minio() {
-  //     const MinioHlepr = new Minio();
-  //     MinioHlepr.connection();
-  //   }
+  minio() {
+    const Minio = new MinioHelper();
+    Minio.connection();
+  }
 }
 
 export default App;
