@@ -18,15 +18,15 @@ class MinioHelper {
     });
   }
 
-  connection(bucketName = 'storage') {
+  connection() {
     this.listBuckets()
       .then((buckets) => {
-        const findBucket = buckets.find((bucket) => bucket.name === bucketName);
+        const findBucket = buckets.find((bucket) => bucket.name === 'storage');
         if (findBucket) {
           console.log('🚀 Minio is running');
           return;
         }
-        this.makeBucket(bucketName, 'region')
+        this.makeBucket('storage', 'region')
           .then((_res) => console.log('🚀 Minio is running'))
           .catch((err) => console.error('Minio Error', err.message));
       })
@@ -102,38 +102,40 @@ class MinioHelper {
 
   putObject(bucketName, files) {
     for (let file of files) {
+      console.log(bucketName, file.path);
+      console.log(path.join(__dirname, `../../${file.path}`));
       this.client.fPutObject(
         bucketName,
-        file.fileName,
-        path.join(__dirname, `./../../uploads/${file.fileName}`),
+        file.filename,
+        path.join(__dirname, `../../${file.path}`),
         {
-          'Content-Type': file.mimeType,
+          'Content-Type': file.mimetype,
           'Content-Language': 10000000000000000000,
           'X-Amz-Meta-Testing': 100000000000000000,
         },
-        (err, _etag) => {
+        function (err, objInfo) {
           if (err) {
-            console.error({ err });
+            return console.log(err);
           }
+          console.log('Success', objInfo.etag, objInfo.versionId);
         }
       );
-      if (file.typeFile === 'image') {
-        setTimeout(() => {
-          for (let item of [128, 512, 'blur', 'thumbnail']) {
-            this.client.fPutObject(
-              bucketName,
-              `${item}-${file.fileName}`,
-              path.join(__dirname, `./../../uploads/${item}-${file.fileName}`),
-              {
-                'Content-Type': file.mimeType,
-                'Content-Language': 10000000000000000000,
-                'X-Amz-Meta-Testing': 100000000000000000,
-              },
-              (_err, _etag) => {}
-            );
-          }
-        }, 5000);
-      }
+      // this.client.fPutObject(
+      //   bucketName,
+      //   file.fileName,
+      //   path.join(__dirname, `../../uploads/${file.filename}`),
+      //   {
+      //     'Content-Type': file.mimetype,
+      //     'Content-Language': 10000000000000000000,
+      //     'X-Amz-Meta-Testing': 100000000000000000,
+      //   },
+      //   (err, _etag) => {
+      //     if (err) {
+      //       console.log(err);
+      //       console.error({ err });
+      //     }
+      //   }
+      // );
     }
   }
 

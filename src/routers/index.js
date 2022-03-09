@@ -10,9 +10,6 @@
 // // Helpers
 // import Upload from './../helpers/upload';
 
-import multer from 'fastify-multer';
-import multerMinIOStorage from 'multer-minio-storage';
-
 import Storage from '../controllers/storage';
 
 const storage = new Storage();
