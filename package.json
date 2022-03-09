@@ -14,6 +14,7 @@
   "dependencies": {
     "dotenv": "^16.0.0",
     "fastify": "^3.27.3",
+    "fastify-multer": "^2.0.2",
     "minio": "^7.0.26"
   },
   "devDependencies": {

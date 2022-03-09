@@ -14,7 +14,7 @@ class App {
       }
     });
     this.app.addContentTypeParser('*', (_req, done) => done());
-    // this.app.register(require('./../routers'), { logLevel: 'info' });
+    this.app.register(require('./routers'), { logLevel: 'info' });
     return this.app;
   }
 
