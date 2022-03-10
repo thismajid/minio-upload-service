@@ -1,6 +1,9 @@
 import * as Minio from 'minio';
 import path from 'path';
 
+import types from '../configs/types.config';
+import configType from '../configs/mimeTypes.config';
+
 class MinioHelper {
   constructor() {
     const {
@@ -19,18 +22,10 @@ class MinioHelper {
   }
 
   connection() {
-    this.listBuckets()
-      .then((buckets) => {
-        const findBucket = buckets.find((bucket) => bucket.name === 'storage');
-        if (findBucket) {
-          console.log('🚀 Minio is running');
-          return;
-        }
-        this.makeBucket('storage', 'region')
-          .then((_res) => console.log('🚀 Minio is running'))
-          .catch((err) => console.error('Minio Error', err.message));
-      })
-      .catch((err) => console.error('Minio Error', err.message));
+    types.forEach((type) => {
+      this.createBucketIfNotExist(type);
+    });
+    console.log('🚀 Minio is running');
   }
 
   makeBucket(name, region) {
@@ -115,10 +110,9 @@ class MinioHelper {
 
   putObject(files) {
     for (let file of files) {
-      const fileBucket = file.mimetype.split('/')[0];
-      this.createBucketIfNotExist(fileBucket);
+      const { type } = configType.mimetypes[file.mimetype];
       this.client.fPutObject(
-        fileBucket,
+        type,
         file.filename,
         path.join(__dirname, `../../${file.path}`),
         {
