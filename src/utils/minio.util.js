@@ -100,10 +100,25 @@ class MinioHelper {
     });
   }
 
-  putObject(bucketName, files) {
+  createBucketIfNotExist(bucketName) {
+    this.listBuckets()
+      .then((buckets) => {
+        const findBucket = buckets.find((bucket) => bucket.name === bucketName);
+        if (!findBucket) {
+          this.makeBucket(bucketName, 'region').catch((err) =>
+            console.error('Minio Error', err.message)
+          );
+        }
+      })
+      .catch((err) => console.error('Minio Error', err.message));
+  }
+
+  putObject(files) {
     for (let file of files) {
+      const fileBucket = file.mimetype.split('/')[0];
+      this.createBucketIfNotExist(fileBucket);
       this.client.fPutObject(
-        bucketName,
+        fileBucket,
         file.filename,
         path.join(__dirname, `../../${file.path}`),
         {
@@ -122,8 +137,9 @@ class MinioHelper {
   removeObject(bucketName, objectName) {
     this.client.removeObject(bucketName, objectName, (err, _response) => {
       if (err) {
-        throw Error('minio error');
+        throw Error('minio delete file error');
       }
+      return true;
     });
   }
 }

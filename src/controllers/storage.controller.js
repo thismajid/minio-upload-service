@@ -7,10 +7,7 @@ class StorageController {
     try {
       const requestUrl = request.url.includes('single') ? 'single' : 'multiple';
       const { END_POINT_MINIO: endPoint, PORT_MINIO: port } = process.env;
-      Minio.putObject(
-        'storage',
-        requestUrl === 'single' ? [request.file] : request.files
-      );
+      Minio.putObject(requestUrl === 'single' ? [request.file] : request.files);
       const files = [];
       if (requestUrl === 'single') {
         files.push(
@@ -33,8 +30,27 @@ class StorageController {
   }
 
   showFile(request, reply) {
-    const bucketName = request.query.folder || 'storage';
-    Minio.getObject(reply, bucketName, request.query.file);
+    try {
+      const bucketName = request.query.folder || 'storage';
+      Minio.getObject(reply, bucketName, request.query.file);
+    } catch (err) {
+      console.log(err);
+      return reply.send({ status: 'error', msg: 'invalid request' });
+    }
+  }
+
+  deleteFile(request, reply) {
+    try {
+      const bucketName = request.query.folder || 'storage';
+      Minio.removeObject(bucketName, request.query.file);
+      return reply.send({
+        status: 'success',
+        msg: `file: ${request.query.file} deleted successfully`,
+      });
+    } catch (err) {
+      console.log(err);
+      return reply.send({ status: 'error', msg: 'invalid request' });
+    }
   }
 }
 

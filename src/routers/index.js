@@ -9,22 +9,28 @@ const multipleUpload = Uploader.config('files');
 export default (fastify, _opts, done) => {
   fastify.route({
     method: 'POST',
-    url: '/api/uploads/single',
+    url: '/api/files/uploads/single',
     preHandler: [singleUpload],
     handler: StorageController.uploader,
   });
 
   fastify.route({
     method: 'POST',
-    url: '/api/uploads/multiple',
+    url: '/api/files/uploads/multiple',
     preHandler: [multipleUpload],
     handler: StorageController.uploader,
   });
 
   fastify.route({
     method: 'GET',
-    url: '/api/show',
+    url: '/api/files',
     handler: StorageController.showFile,
+  });
+
+  fastify.route({
+    method: 'DELETE',
+    url: '/api/files',
+    handler: StorageController.deleteFile,
   });
 
   //   fastify.route({
