@@ -1,30 +1,4 @@
-// // Controllers
-// import StorageController from './../controllers/raychat';
-
-// // middlewares
-// import StorageMidd from './../middlewares/schema';
-
-// // Hookes
-// import Hooks from './../helpers/hooks';
-
-// // Helpers
-// import Upload from './../helpers/upload';
-
-import Storage from '../controllers/storage';
-
-const storage = new Storage();
-
-// import Uploader from '../utils/uploader';
-
-// const Upload = new Uploader();
-
-// const upload = Upload.config();
-
-// import MinioHelper from '../utils/minio';
-
-// const uploader = new Uploader();
-
-// const singleUploader = uploader.singleUpload();
+import StorageController from '../controllers/storage.controller';
 
 import Uploader from '../utils/uploader';
 
@@ -37,14 +11,14 @@ export default (fastify, _opts, done) => {
     method: 'POST',
     url: '/api/uploads/single',
     preHandler: [singleUpload],
-    handler: storage.singleUpload,
+    handler: StorageController.uploader,
   });
 
   fastify.route({
     method: 'POST',
     url: '/api/uploads/multiple',
     preHandler: [multipleUpload],
-    handler: storage.singleUpload,
+    handler: StorageController.uploader,
   });
 
   //   fastify.route({

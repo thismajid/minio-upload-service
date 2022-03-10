@@ -12,6 +12,7 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
+    "cron": "^1.8.2",
     "dotenv": "^16.0.0",
     "fastify": "^3.27.3",
     "fastify-multer": "^2.0.2",

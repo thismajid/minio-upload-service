@@ -102,16 +102,12 @@ class MinioHelper {
 
   putObject(bucketName, files) {
     for (let file of files) {
-      console.log(bucketName, file.path);
-      console.log(path.join(__dirname, `../../${file.path}`));
       this.client.fPutObject(
         bucketName,
         file.filename,
         path.join(__dirname, `../../${file.path}`),
         {
           'Content-Type': file.mimetype,
-          'Content-Language': 10000000000000000000,
-          'X-Amz-Meta-Testing': 100000000000000000,
         },
         function (err, objInfo) {
           if (err) {
@@ -120,22 +116,6 @@ class MinioHelper {
           console.log('Success', objInfo.etag, objInfo.versionId);
         }
       );
-      // this.client.fPutObject(
-      //   bucketName,
-      //   file.fileName,
-      //   path.join(__dirname, `../../uploads/${file.filename}`),
-      //   {
-      //     'Content-Type': file.mimetype,
-      //     'Content-Language': 10000000000000000000,
-      //     'X-Amz-Meta-Testing': 100000000000000000,
-      //   },
-      //   (err, _etag) => {
-      //     if (err) {
-      //       console.log(err);
-      //       console.error({ err });
-      //     }
-      //   }
-      // );
     }
   }
 

@@ -1,0 +1,17 @@
+version: '3'
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.57.0/24
+
+services:
+  minio2:
+    image: bitnami/minio:latest
+    environment:
+      - MINIO_ACCESS_KEY=minio
+      - MINIO_SECRET_KEY= minio
+    ports:
+      - 9000:9000

@@ -1,4 +1,3 @@
-// Packages
 import multer from 'fastify-multer';
 import path from 'path';
 
@@ -13,11 +12,11 @@ class Uploader {
             destination: (_req, _file, cb) => {
               cb(null, 'uploads/');
             },
-            filename: function (req, file, cb) {
-              cb(null, `${Date.now()}${path.extname(file.originalname)}`);
+            filename: function (_req, _file, cb) {
+              cb(null, `${Date.now()}${path.extname(_file.originalname)}`);
             },
           }),
-          fileFilter: (_req, file, cb) => {
+          fileFilter: (_req, _file, cb) => {
             cb(null, true);
           },
           limits: { fileSize: LIMIT * 1024 * 1024 },
@@ -30,11 +29,11 @@ class Uploader {
             destination: (_req, _file, cb) => {
               cb(null, 'uploads/');
             },
-            filename: function (req, file, cb) {
-              cb(null, `${Date.now()}${path.extname(file.originalname)}`);
+            filename: function (_req, _file, cb) {
+              cb(null, `${Date.now()}${path.extname(_file.originalname)}`);
             },
           }),
-          fileFilter: (_req, file, cb) => {
+          fileFilter: (_req, _file, cb) => {
             cb(null, true);
           },
           limits: { fileSize: LIMIT * 1024 * 1024 },

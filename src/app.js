@@ -1,4 +1,5 @@
-import MinioHelper from './utils/minio';
+import MinioHelper from './utils/minio.util';
+import CronJobs from './utils/cron.util';
 
 class App {
   constructor(app) {
@@ -20,6 +21,7 @@ class App {
 
   serve() {
     this.settings();
+    CronJobs.deleteFileCron();
     this.app.listen(this.port, (err) => {
       if (err) {
         console.error(err);
