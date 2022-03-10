@@ -21,6 +21,12 @@ export default (fastify, _opts, done) => {
     handler: StorageController.uploader,
   });
 
+  fastify.route({
+    method: 'GET',
+    url: '/api/show',
+    handler: StorageController.showFile,
+  });
+
   //   fastify.route({
   //     method: 'POST',
   //     url: '/profile/',

@@ -31,6 +31,11 @@ class StorageController {
       return reply.send({ status: 'error', msg: 'invalid request' });
     }
   }
+
+  showFile(request, reply) {
+    const bucketName = request.query.folder || 'storage';
+    Minio.getObject(reply, bucketName, request.query.file);
+  }
 }
 
 export default new StorageController();
